@@ -2,6 +2,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
 import User from "../models/user.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+
 
 const JWT_SECRET = process.env.JWT_SECRET || "change_this_secret";
 const SALT_ROUNDS = 10;
