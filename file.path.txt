@@ -1,0 +1,22 @@
+backend/
+├── config/
+ |          └── database.js
+├── controllers/
+ |          ├── recipeController.js
+ |          └── userController.js
+├── middlewares/
+ |          ├── authMiddleware.js
+ |          └── errorHandler.js
+├── models/
+ |          ├── recipe.js
+ |          └── user.js
+├── node_modules/
+├── routes/
+ |          ├── recipeRoutes.js
+ |          └── userRoutes.js
+├── .env
+├── app.js
+├── database.sql
+├── file.path.txt
+├── package-lock.json
+└── package.json
