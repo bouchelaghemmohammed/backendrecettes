@@ -1,18 +1,16 @@
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
-dotenv.config();
 
-const { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD } = process.env;
+const host = process.env.DB_HOST || process.env.DATABASE_HOST;
+const port = Number(process.env.DB_PORT || process.env.DATABASE_PORT || 3306);
+const database = process.env.DB_NAME || process.env.DATABASE_NAME;
+const username = process.env.DB_USER || process.env.DATABASE_USERNAME;
+const password = process.env.DB_PASSWORD || process.env.DATABASE_PASSWORD;
 
-const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-  host: DB_HOST,
-  port: DB_PORT || 3306,
+const sequelize = new Sequelize(database, username, password, {
+  host,
+  port,
   dialect: "mysql",
-  logging: false,
-  define: {
-    underscored: false,
-    freezeTableName: false
-  }
+  logging: false
 });
 
 export default sequelize;
