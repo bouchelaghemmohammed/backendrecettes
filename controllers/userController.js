@@ -10,35 +10,27 @@ const SALT_ROUNDS = 10;
 
 /**
  * POST /api/auth/signup
- * body: { username, email?, password }
+ * body: { username, password }
  */
 export const signup = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, password } = req.body;
     if (!username || !password) {
       return res.status(400).json({ message: "username and password are required" });
     }
 
-    // Check username uniqueness
+    // Check username est ce aue c'est unique
     const existingByUsername = await User.findOne({ where: { username } });
     if (existingByUsername) {
-      return res.status(409).json({ message: "Username already taken" });
+      return res.status(409).json({ message: "Username déja exist" });
     }
 
-    // If email provided, check email uniqueness
-    if (email) {
-      const existingByEmail = await User.findOne({ where: { email } });
-      if (existingByEmail) {
-        return res.status(409).json({ message: "Email already taken" });
-      }
-    }
-
+  
     // Hash password
     const hashed = await bcrypt.hash(password, SALT_ROUNDS);
 
     const newUser = await User.create({
       username,
-      email: email || null,
       password: hashed
     });
 
@@ -47,13 +39,11 @@ export const signup = async (req, res, next) => {
     const safeUser = {
       id: newUser.id,
       username: newUser.username,
-      email: newUser.email
     };
 
     return res.status(201).json({ user: safeUser, token });
   } catch (err) {
-    // If DB unique constraint still triggers, return friendly message
-    // eslint-disable-next-line no-console
+   
     console.error("signup error:", err);
     if (err.name === "SequelizeUniqueConstraintError") {
       return res.status(409).json({ message: "User already exists (unique constraint)" });
@@ -62,29 +52,24 @@ export const signup = async (req, res, next) => {
   }
 };
 
-/**
- * POST /api/auth/login
- * body: { username, password } or { email, password }
- */
+
 export const login = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
-    if ((!username && !email) || !password) {
-      return res.status(400).json({ message: "username/email and password are required" });
+    const { username, password } = req.body;
+    if ((!username) || !password) {
+      return res.status(400).json({ message: "username et password  sont requis" });
     }
-
-    const where = username ? { username } : { email };
-    const user = await User.findOne({ where });
-    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+  
+    const user = await User.findOne({ username });
+    if (!user) return res.status(401).json({ message: "Identifiants invalides" });
 
     const valid = await bcrypt.compare(password, user.password);
-    if (!valid) return res.status(401).json({ message: "Invalid credentials" });
+    if (!valid) return res.status(401).json({ message: "Identifiants invalides" });
 
     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: "7d" });
-    const safeUser = { id: user.id, username: user.username, email: user.email };
+    const safeUser = { id: user.id, username: user.username };
     return res.json({ user: safeUser, token });
   } catch (err) {
     return next(err);
   }
 };
-//test commit 06

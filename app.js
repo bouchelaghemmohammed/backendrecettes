@@ -25,7 +25,7 @@ app.get("/", (req, res) => res.json({ message: "Recipes API (backend)" }));
 // Centralized error handler (after routes)
 app.use(errorHandler);
 
-// Associations (defined once)
+// Associations (definer une fois)
 User.hasMany(Recipe, { foreignKey: "userId", as: "recipes" });
 Recipe.belongsTo(User, { foreignKey: "userId", as: "user" });
 

@@ -1,8 +1,7 @@
-// backend/models/user.js
+
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-// Modèle User : ne définit PAS d'associations ici
 const User = sequelize.define(
   "User",
   {

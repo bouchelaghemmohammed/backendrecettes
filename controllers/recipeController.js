@@ -38,9 +38,7 @@ export const createRecipe = async (req, res, next) => {
   }
 };
 
-/**
- * Get single recipe (public)
- */
+
 export const getRecipe = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -52,9 +50,7 @@ export const getRecipe = async (req, res, next) => {
   }
 };
 
-/**
- * Update recipe (protected, owner only)
- */
+
 export const updateRecipe = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -75,9 +71,7 @@ export const updateRecipe = async (req, res, next) => {
   }
 };
 
-/**
- * Delete recipe (protected, owner only)
- */
+
 export const deleteRecipe = async (req, res, next) => {
   try {
     const { id } = req.params;

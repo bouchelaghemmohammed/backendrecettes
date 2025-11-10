@@ -1,8 +1,8 @@
-// backend/models/recipe.js
+
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-// Modèle Recipe : NE PAS importer User et NE PAS définir d'associations ici
+
 const Recipe = sequelize.define(
   "Recipe",
   {
