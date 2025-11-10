@@ -1,8 +1,8 @@
 import Recipe from "../models/recipe.js";
 
-/**
- * List all recipes (public)
- */
+
+ // Lister toutes les recettes (public)
+
 export const listRecipes = async (req, res, next) => {
   try {
     const recipes = await Recipe.findAll({
@@ -14,15 +14,13 @@ export const listRecipes = async (req, res, next) => {
   }
 };
 
-/**
- * Create a recipe (protected)
- */
+
+ // Créer une recette (protégé)
+
 export const createRecipe = async (req, res, next) => {
   try {
     const { name, ingredients, instructions, category, imageUrl } = req.body;
     if (!name) return res.status(400).json({ message: "Recipe name is required" });
-
-    // req.user must be set by authMiddleware
     if (!req.user || !req.user.id) return res.status(401).json({ message: "Authentication required" });
 
     const recipe = await Recipe.create({
