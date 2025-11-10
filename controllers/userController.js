@@ -72,10 +72,10 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ message: "username et password sont requis" });
     }
 
-    
+    //trouver
     const user = await User.findOne({ where: { username } });
     if (!user) return res.status(401).json({ message: "Identifiants invalides" });
-
+    //comparer
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ message: "Identifiants invalides" });
 
